@@ -172,7 +172,7 @@ public partial class MainPage : ContentPage
         {
             //连接PLC
             PLC = new Melsec3E(_PLCAddress, _PLCPort);
-            PLC.ConnectTimeOut = 10000; //连接超时时间1s
+            PLC.ConnectTimeOut = 1000; //连接超时时间1s
 
             btnClicked = false;//禁用按钮,避免重复点击
             OnPropertyChanged(nameof(btnClicked));
@@ -189,8 +189,12 @@ public partial class MainPage : ContentPage
                 connectPLC.BackgroundColor = Color.FromRgb(255, 102, 102); //设置连接按钮颜色
 
                 WriteToLog($"已连接IP地址  {_PLCAddress} 的PLC (端口 {_PLCPort})");
+                return; //连接成功
             }
-
+            //连接失败
+            try { PLC.ConnectClose(); }catch { }
+            WriteToLog($"IP地址  {_PLCAddress} 的PLC (端口 {_PLCPort})，连接测试失败");
+            PLC = null;
             return;
         }
 
