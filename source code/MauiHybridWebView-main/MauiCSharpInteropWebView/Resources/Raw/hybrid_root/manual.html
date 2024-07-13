@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="_hwv/HybridWebView.js"></script>
+    <link href="styles/my-styles.css" rel="stylesheet" />
+    <script src="js/extra_code.js"></script>
+
+
+    <script>
+        function loadFromZip(fileName) {
+            //从本地Zip文件加载图片
+            document.getElementById('proxyImage').src = `${window.location.origin}/proxy?operation=loadImageFromZip&fileName=${fileName}`;
+        }
+
+    </script>
+    <style>
+        img {
+            object-fit: cover;
+            width:900px;
+        }
+        #main{
+            width:900px;
+        }
+        #proxyImage {
+            width: 200px;
+            margin:20px 50px;
+        }
+        body{
+            padding:10px;
+        }
+        p{
+            font-size:12px;
+        }
+    </style>
+</head>
+<body>
+    <h2>使用说明</h2>
+    <div class="navBar">
+        <a href="/">主页</a> | 使用说明
+    </div>
+    <div id="main">
+        <b>PLC的IP地址跟端口设置如下</b>
+        <img src="img/setting1.png" />
+
+        <p>
+            要确保使用的是KeepAlive,否则当发生网络问题后出现无法连上PLC的状况，因为之前的连接PLC没有自动释放资源。
+        </p>
+        <img src="img/setting2.png" />
+
+        <b>或者你可以尝试使用PLC自带的WEB服务器的监看页面</b>
+
+        <img src="img/setting3.png" />
+        <p>
+            设置80端口是为了在浏览器直接输入PLC的IP地址就能访问，其他端口请在浏览器的IP地址后加上：端口号。
+        </p>
+        <img src="img/setting4.jpg" />
+
+        <p>
+            本程序代码开源，匆忙写就，方便现场调试设备信号用。
+        </p>
+        <p>
+            MAUI支持跨平台，安卓，苹果，跟Windows桌面系统。
+        </p>
+        <p>
+            这个只是抛砖引玉,希望大家有空来完善下这些工具。
+        </p>
+        <input type="button" value="联系作者" onclick="loadFromZip('pictures.png')" />
+        <br /><br />
+        <img id="proxyImage" />
+
+    </div>
+    <script>
+        // Notify .NET code which page we're on
+        HybridWebView.SendRawMessageToDotNet("page:3");
+    </script>
+</body>
+</html>

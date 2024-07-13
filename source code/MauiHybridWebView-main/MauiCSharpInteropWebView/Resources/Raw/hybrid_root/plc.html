@@ -1,0 +1,1118 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>PLC</title>
+    <!--<script type="text/javascript" src="other/jquery.min.js"></script>-->
+    <script type="text/javascript" src="other/moment.js"></script>
+    <script src="_hwv/HybridWebView.js"></script>
+    <link href="styles/my-styles.css" rel="stylesheet" />
+    <script>
+
+        let mainTimerCycle = 5;
+        let mainSetType;
+        let mainDevType;
+        let mainDevAddress;
+        let mainBfmUnitNo;
+        let mainBfmAddress;
+        let mainDataType;
+        let mainInputType;
+        let mainDevRegData; //监看列表主数据
+        let mainBitsortSel;
+        let mainTimerID_menu;
+        let mainTimerCount;
+        let mainTimeOutID;
+        let isBatMonitor;
+        let isRegMonitor;
+        let savedPage;
+        let tstDev;
+        let tstFmt;
+        let tstType;
+        let tstVal;
+        let tstUpdateFn;
+        let viewPageNum = 1;
+        let timerID_reg = 0;
+        let timerID_bat = 0;
+        let timerID_default = 0;
+        let timerID_cpudiag = 0;
+        let timerID_Acc = 0;
+        let mainMultiPoint;
+        let timerID_10 = 0;
+        let timeout_10 = 9999999;
+        let mainBlSelect;
+        let mainBlAddress;
+
+
+        let errorString = [["mon_err01", "\u672a\u8f93\u5165\u8f6f\u5143\u4ef6\u540d\u3002\u8bf7\u8f93\u5165\u8f6f\u5143\u4ef6\u540d\u3002"], ["mon_err02", "\u672a\u8f93\u5165\u7f13\u51b2\u5b58\u50a8\u5668\u5730\u5740\u3002\u8bf7\u8f93\u5165\u7f13\u51b2\u5b58\u50a8\u5668\u5730\u5740\u3002"], ["err_rdnum0002", "\u8bf7\u6c42\u6570\u636e\u5f02\u5e38\u3002\u8bf7\u518d\u6b21\u6267\u884c\u3002"], ["login0001", "\u8d85\u51fa\u4e86\u53ef\u4ee5\u540c\u65f6\u8fde\u63a5\u7684\u6570\u91cf\uff0c\u56e0\u6b64\u65e0\u6cd5\u8fde\u63a5\u3002\u8bf7\u7a0d\u540e\u518d\u6b21\u8fde\u63a5\u3002"],
+        ["login0002", "---"], ["login0003", "\u7528\u6237\u540d\u6216\u53e3\u4ee4\u4e0d\u4e00\u81f4\u3002"], ["login0004", "\u8bf7\u7a0d\u540e\u518d\u6b21\u8f93\u5165\u7528\u6237\u540d\u548c\u53e3\u4ee4"], ["login0005", "\u8bf7\u6c42\u6765\u6e90\u4e0d\u6b63\u786e\u3002"], ["logout0001", "---"], ["0001", "\u5df2\u6ce8\u9500\u3002\u8bf7\u91cd\u65b0\u767b\u5f55\u3002"], ["0002", "\u6ca1\u6709\u8f6f\u5143\u4ef6\u5199\u5165\u6743\u9650\u3002\r\n\u8bf7\u4f7f\u7528\u6709\u5199\u5165\u4fe1\u606f\u7684\u7528\u6237\u91cd\u65b0\u767b\u5f55\u540e\u518d\u6267\u884c\u3002"],
+        ["0005", "\u8bf7\u6c42\u6765\u6e90\u4e0d\u6b63\u786e\u3002"], ["4005", "---"], ["4031", "\u8f6f\u5143\u4ef6\u53f7\u4e0d\u6b63\u786e\u6216\u8d85\u51fa\u8303\u56f4\u3002\r\n\u8bf7\u786e\u8ba4\u53c2\u6570\u7684\u8f6f\u5143\u4ef6\u8bbe\u7f6e\u3002"], ["4030", "\u8f6f\u5143\u4ef6\u4e0d\u6b63\u786e\u3002\u53ef\u80fd\u662f\u4ee5\u4e0b\u539f\u56e0\u6240\u81f4\uff1a\r\n\r\n\u30fb\u6307\u9488\u3001\u5e38\u6570\u7b49\u8f6f\u5143\u4ef6\r\n\u30fb\u8d85\u51fa\u4e86CPU\u53c2\u6570\u7684\u8f6f\u5143\u4ef6\u8bbe\u7f6e\u7684\u8f6f\u5143\u4ef6\u8303\u56f4\u7684\u8f6f\u5143\u4ef6\r\n\u30fb\u4e0d\u652f\u6301\u7684\u8f6f\u5143\u4ef6"],
+        ["4041", "\u8f6f\u5143\u4ef6\u53f7\u4e0d\u6b63\u786e\u6216\u8d85\u51fa\u8303\u56f4\u3002\r\n\u8bf7\u786e\u8ba4\u53c2\u6570\u7684\u8f6f\u5143\u4ef6\u8bbe\u7f6e\u3002"], ["4043", "\u6307\u5b9a\u7684\u6a21\u5757\u4e0d\u5b58\u5728\u3002\u8bf7\u786e\u8ba4\u6a21\u5757\u3002"], ["msg_device", "\u5c06"], ["msg_to", "\u5199\u5165\u8f6f\u5143\u4ef6"], ["msg_towrite", "\r\n\u786e\u5b9a\u5417?"], ["msg_warning", "\u6ce8\u610f:\r\n  \u53ef\u7f16\u7a0b\u63a7\u5236\u5668\u7684\u63a7\u5236\u53ef\u80fd\u5df2\u6539\u53d8\u3002\r\n  \u8bf7\u786e\u8ba4\u5b89\u5168\u540e\u6267\u884c\u3002"],
+        ["msg_rangeover", "\u8f93\u5165\u503c\u8d85\u51fa\u8303\u56f4\u3002\r\n\u8bf7\u786e\u8ba4\u8f93\u5165\u503c\u540e\uff0c\u518d\u6b21\u6267\u884c\u3002"], ["msg_noerr", "\u65e0\u9519\u8bef"], ["msg_noEv", "\u65e0\u4e8b\u4ef6"], ["cpu0002", "---"], ["msg_clear", "\u5220\u9664\u76d1\u770b\u5c4f\u5e55\u5185\u767b\u5f55\u7684\u8f6f\u5143\u4ef6\u6570\u636e\u3002\r\n\u786e\u5b9a\u5417?"], ["41C5", "\u6307\u5b9a\u7684\u529f\u80fd\u4e0d\u53ef\u6267\u884c\u3002\u53ef\u80fd\u662f\u4ee5\u4e0b\u539f\u56e0\u6240\u81f4:\r\n\u30fb\u6307\u5b9a\u7684\u6587\u4ef6\u4e0d\u5b58\u5728"],
+        ["4025", "\u5176\u4ed6\u5916\u56f4\u8bbe\u5907\u6b63\u5728\u6267\u884c\u5904\u7406\u3002\u8bf7\u7b49\u5f85\u5176\u4ed6\u5904\u7406\u7ed3\u675f\u540e\uff0c\u518d\u6b21\u6267\u884c\u3002"], ["41FE", "\u2022\u672a\u63d2\u5165SD\u5b58\u50a8\u5361\u3002\r\n\u2022SD\u5b58\u50a8\u5361\u5904\u4e8e\u505c\u6b62\u4f7f\u7528\u72b6\u6001\u3002\r\n\u2022\u7531\u4e8eSM606(SD\u5b58\u50a8\u5361\u5f3a\u5236\u4f7f\u7528\u505c\u6b62\u6307\u793a)\uff0c\u5904\u4e8e\u505c\u6b62\u4f7f\u7528\u72b6\u6001\u3002"], ["4C1F", "\u6b63\u5728\u6267\u884cCPU\u6a21\u5757\u7684\u5907\u4efd/\u8fd8\u539f\uff0c\u56e0\u6b64\u65e0\u6cd5\u6267\u884c\u3002\u8bf7\u5728CPU\u6a21\u5757\u7684\u5907\u4efd/\u8fd8\u539f\u5b8c\u6210\u540e\uff0c\u518d\u6b21\u6267\u884c\u3002"],
+        ["402C", "\u5f53\u524d\u65e0\u6cd5\u6267\u884c\u8bf7\u6c42\u5185\u5bb9\u3002"], ["4021", "\u6307\u5b9a\u7684\u9a71\u52a8\u5668(\u5b58\u50a8\u5668)\u4e0d\u5b58\u5728\uff0c\u6216\u8005\u5f02\u5e38\u3002"], ["4180", "\u7cfb\u7edf\u9519\u8bef\u3001\u6216OS\u5185\u7684\u8bbe\u5b9a\u6570\u503c\u5f02\u5e38\u3002"], ["devicetest_now", "\u5728\u901a\u4fe1..."], ["devicetest_error", "Time out error."], ["40A7", "\u6307\u5b9a\u4e86\u4e0d\u5b58\u5728\u7684\u5757\u53f7\u3002\r\n\u8bf7\u786e\u8ba4\u6307\u5b9a\u7684\u8f6f\u5143\u4ef6,\u5e76\u6307\u5b9a\u5b9e\u9645\u5b58\u5728\u7684\u5757\u53f7\u3002"],
+        ["40A8", "\u6307\u5b9a\u4e86\u4e0d\u5b58\u5728\u7684\u6b65\u53f7\u3002\r\n\u8bf7\u786e\u8ba4\u6307\u5b9a\u7684\u8f6f\u5143\u4ef6,\u5e76\u6307\u5b9a\u5b9e\u9645\u5b58\u5728\u7684\u6b65\u53f7\u3002"], ["NoMessage", "\u8bf7\u53c2\u7167\u53d1\u751f\u76f8\u5e94\u9519\u8bef\u7684\u6a21\u5757\u7684\u624b\u518c\u3002"]],
+            monitorString = ["\u76d1\u89c6\u5f00\u59cb", "\u76d1\u89c6\u505c\u6b62", "\u76d1\u89c6\u4e2d", "\u76d1\u89c6\u505c\u6b62\u4e2d"],
+            dataTypeString = "-- \u4f4d 16-\u4f4d\u6574\u6570\uff08\u6709\u7b26\u53f7\uff09 16-\u4f4d\u6574\u6570\uff08\u65e0\u7b26\u53f7\uff09 32-\u4f4d\u6574\u6570\uff08\u6709\u7b26\u53f7\uff09 32-\u4f4d\u6574\u6570\uff08\u65e0\u7b26\u53f7\uff09 \u5355\u7cbe\u5ea6\u5b9e\u6570 \u5b57\u7b26\u4e32".split(" "),
+            stateString = ["\u8b66\u544a", "\u8f7b\u5ea6", "\u4e2d\u5ea6", "\u91cd\u5ea6"],
+            radixTypeString = [[2, "\u8fdb\u5236\u6570"], [10, "10\u8fdb\u5236"], [16, "16\u8fdb\u5236"]],
+            progInfoString = ["\u7a0b\u5e8f\u4f4d\u7f6e\u4fe1\u606f\r\n", "\u6a21\u5757\u4f4d\u7f6e\r\n"],
+            stepNoString = ["\u987a\u5e8f\u6b65\u53f7 :", "\u6587\u4ef6\u540d :"],
+            slotNo_Tbl = [["00", "CPU\u6a21\u5757"], ["01", "\u6269\u5c55\u6a21\u5757 1"], ["02", "\u6269\u5c55\u6a21\u5757 2"], ["03", "\u6269\u5c55\u6a21\u5757 3"], ["04", "\u6269\u5c55\u6a21\u5757 4"], ["05",
+                "\u6269\u5c55\u6a21\u5757 5"], ["06", "\u6269\u5c55\u6a21\u5757 6"], ["07", "\u6269\u5c55\u6a21\u5757 7"], ["08", "\u6269\u5c55\u6a21\u5757 8"], ["09", "\u6269\u5c55\u6a21\u5757 9"], ["0A", "\u6269\u5c55\u6a21\u5757 10"], ["0B", "\u6269\u5c55\u6a21\u5757 11"], ["0C", "\u6269\u5c55\u6a21\u5757 12"], ["0D", "\u6269\u5c55\u6a21\u5757 13"], ["0E", "\u6269\u5c55\u6a21\u5757 14"], ["0F", "\u6269\u5c55\u6a21\u5757 15"], ["10", "\u6269\u5c55\u6a21\u5757 16"], ["11", "\u6269\u5c55\u6a21\u5757 17"], ["12", "\u6269\u5c55\u6a21\u5757 18"],
+            ["41", "\u5185\u7f6eRS-485"], ["42", "\u5185\u7f6e\u6a21\u62df"], ["60", "\u6269\u5c55\u63d2\u677f"], ["71", "\u6269\u5c55\u9002\u914d\u5668 1"], ["72", "\u6269\u5c55\u9002\u914d\u5668 2"], ["73", "\u6269\u5c55\u9002\u914d\u5668 3"], ["74", "\u6269\u5c55\u9002\u914d\u5668 4"], ["75", "\u6269\u5c55\u9002\u914d\u5668 5"], ["76", "\u6269\u5c55\u9002\u914d\u5668 6"]],
+            multiTypeString = [[1, "\u5b57"], [2, "\u591a\u70b9\u5b57"]],
+            actionString = [["0001", "HTTP \u767b\u5f55\u6210\u529f"], ["0002", "HTTP \u767b\u5f55\u5931\u8d25"],
+            ["0003", "HTTP \u6ce8\u9500"], ["000A", "\u8f6f\u5143\u4ef6\u5199\u5165:"]],
+            protocolString = [["1", "TCP"], ["2", "UDP"], ["3", "HTTP"], ["4", "FTP"]],
+            eventType = [["00", "\u7cfb\u7edf"], ["01", "\u5b89\u5168\u6027"], ["02", "\u64cd\u4f5c"], ["FF", "\u4e22\u5931"]],
+            eventport = [["0", "-"], ["1", "\u4ee5\u592a\u7f51"], ["2", "\u4e32\u884c"]],
+            userStr = ["\u8fde\u63a5\u7aef\u53e3:", "IP\u5730\u5740 :"];
+
+
+
+
+        //获取HTML元素element对象
+        function getElIdObj(a, b) {
+            return 1 == b
+                ? document.getElementById(a)
+                : 2 == b
+                    ?  document.getElementById(a)
+                    : document.getElementById(a);
+        }
+        //获取HTML元素element内的值
+        function getElIdVal(a, b) {
+            return 1 == b
+                ? document.getElementById(a).value
+                : 2 == b
+                    ?  document.getElementById(a).value
+                    : document.getElementById(a).value;
+        }
+        //设置HTML元素element的颜色
+        function setStlCol(a, b, c) {
+            1 == c
+                ? (document.getElementById(a).style.color = b)
+                : 2 == c
+                    ? ( document.getElementById(a).style.color = b)
+                    : (document.getElementById(a).style.color = b);
+        }
+        //设置HTML元素的背景色
+        function setBkCol(a, b, c) {
+            1 == c
+                ? (document.getElementById(a).style.backgroundColor = b)
+                : 2 == c
+                    ? ( document.getElementById(a).style.backgroundColor = b)
+                    : (document.getElementById(a).style.backgroundColor = b);
+        }
+
+        //PLC监视读取与写入
+        let writeXhr,
+            RUN_COLOR = "rgb(124,252,0)",
+            BACK_COLOR = "rgb(221,221,221)",
+            WATCH_BTN_SELECT = "rgb(255,255,255)",
+            WATCH_BTN_SELECT_BG = "rgb(52,146,232)",
+            BIT_ON_COLOR = "rgb(0,102,255)",
+            MAX_DISP_LINE = 32,
+            BIT_POINT_8 = 8,
+            BIT_POINT_10 = 10,
+            BIT_POINT_4 = 4,
+            nowDisplay = 1,
+            c_t_DataArray = [],
+            tstValue,
+            showTest = 0,
+            nextClk = 0,
+            entChk = 0,
+            watchStatus = 0,
+            monStatus = 0,
+            croppedstr,
+            flushArray = [],
+            writing = 0,
+            xhrTimeout_msec = 1e4,
+            WATCH_ERR = 16,
+            WATCH_OK = 1,
+            WATCH_OKE = 2,
+            WATCH_AOK = 3;
+
+        //XHR请求以及HTML颜色跟登出
+        let HDTYP = "Content-Type",
+            HDVAL = "application/x-www-form-urlencoded",
+            LINE_HOVER_COLOR = "rgb(207,221,242)",
+            LINE_HOVER_COLOR2 = "rgb(189,205,226)",
+            LINE_HOVER_STRCOLOR = "rgb(13,81,179)",
+            logoutMsg = 0;
+
+
+
+        //鼠标移过颜色区分
+        function onRegMouseOver(a) {
+            let b, c;
+            devsize = getElIdVal("devsize" + a, 1);
+            val = getElIdVal("val" + a, 1);
+            c = LINE_HOVER_STRCOLOR;
+            b =
+                (1 == devsize && 1 == val) || 0 == a % 2
+                    ? LINE_HOVER_COLOR2
+                    : LINE_HOVER_COLOR;
+            setStlCol("devnametd" + a, c, 1);
+            setStlCol("dev" + a, c, 1);
+            setStlCol("disptypetd" + a, c, 1);
+            setStlCol("devfmt" + a, c, 1);
+            setStlCol("datatypetd" + a, c, 1);
+            setStlCol("devsize" + a, c, 1);
+            setStlCol("readvaluetd" + a, c, 1);
+            setStlCol("val" + a, c, 1);
+            setBkCol("devnametd" + a, b, 1);
+            0 == (WATCH_ERR & mainDevRegData[a - 1][3]) && setBkCol("dev" + a, b, 1);
+            setBkCol("disptypetd" + a, b, 1);
+            setBkCol("devfmt" + a, b, 1);
+            setBkCol("datatypetd" + a, b, 1);
+            setBkCol("devsize" + a, b, 1);
+            setBkCol("readvaluetd" + a, b, 1);
+            setBkCol("val" + a, b, 1);
+        }
+        function onRegMouseOut(a) {
+            devsize = getElIdVal("devsize" + a, 1);
+            val = getElIdVal("val" + a, 1);
+            1 == devsize && 1 == val
+                ? setLineColorMon(a, BIT_ON_COLOR, WATCH_BTN_SELECT)
+                : (setStlCol("devnametd" + a, "", 1),
+                    setStlCol("dev" + a, "", 1),
+                    setStlCol("disptypetd" + a, "", 1),
+                    setStlCol("devfmt" + a, "", 1),
+                    setStlCol("datatypetd" + a, "", 1),
+                    setStlCol("devsize" + a, "", 1),
+                    setStlCol("readvaluetd" + a, "", 1),
+                    setStlCol("val" + a, "", 1),
+                    setBkCol("devnametd" + a, "", 1),
+                    0 == (WATCH_ERR & mainDevRegData[a - 1][3]) && setBkCol("dev" + a, "", 1),
+                    setBkCol("disptypetd" + a, "", 1),
+                    setBkCol("devfmt" + a, "", 1),
+                    setBkCol("datatypetd" + a, "", 1),
+                    setBkCol("devsize" + a, "", 1),
+                    setBkCol("readvaluetd" + a, "", 1),
+                    setBkCol("val" + a, "", 1));
+        }
+        function onChangeText(a) {
+            0 == entChk && onEnterText(13, a);
+            entChk = 0;
+        }
+        //输入内容验证
+        function onEnterText(a, b) {
+            if (13 == a) {
+                let c,
+                    d = getElIdObj("dev" + b, 1),
+                    e = [];
+                entChk = 1;
+                checkWacthDev(b);
+                if ("" == d.value) setEmptyItemReg(b);
+                else {
+                    c = d.value.toUpperCase();
+                    let f = checkDevtype(c, e);
+                    "ERR" == f
+                        ? setErrorItemReg(b)
+                        : ((c = e[0]), (d.value = e[0]), checkInputDevice(c, b, f));
+                }
+            }
+        }
+
+        function checkWacthDev(a) {
+            let b = 0,
+                c,
+                d,
+                e,
+                f = mainDevRegData;
+            2 == viewPageNum && (b = MAX_DISP_LINE);
+            for (let g = 0; g < MAX_DISP_LINE; g++)
+                (c = g + b),
+                    (d = c + 1),
+                    a != d &&
+                    ((e = getElIdVal("dev" + d, 1)),
+                        e != f[c][0]
+                            ? setEmptyItemReg(d)
+                            : (("" != e && "" == f[c][1] && f[c][3] != WATCH_ERR) ||
+                                ("" == e && "" != f[c][1])) &&
+                            setEmptyItemReg(d));
+        }
+
+        function changeNumTypeList(a) {
+            saveWatchTable(a);
+            monRegStartStop(isRegMonitor);
+        }
+        function saveWatchTable(a) {
+            let b = a - 1;
+            mainDevRegData[b][0] = getElIdVal("dev" + a, 1);
+            mainDevRegData[b][1] = getElIdVal("devfmt" + a, 1);
+            mainDevRegData[b][2] = getElIdVal("devsize" + a, 1);
+            mainDevRegData[b][4] = getElIdVal("remark" + a, 1);
+            a = JSON.stringify(mainDevRegData);
+            console.log(a)
+            setlocalStorage("mainDevRegData", a);
+        }
+        function monRegStartStop(a) {
+            1 == a
+                ? ((isRegMonitor = 1), onRegTimerStart())
+                : (onRegTimerStop(), (isRegMonitor = 0));
+            setStorage("isRegMonitor", isRegMonitor);
+        }
+
+        //获取session存的内容
+        function getStorage(a, b) {
+            let c = b;
+            "undefined" === typeof sessionStorage
+                ? console.log("unsupported sessionStorage")
+                : sessionStorage.getItem(a) && (c = sessionStorage.getItem(a));
+            return c;
+        }
+
+        //在session存内容
+        function setStorage(a, b) {
+            try {
+                "undefined" === typeof sessionStorage
+                    ? console.log("unsupported sessionStorage")
+                    : sessionStorage.setItem(a, b);
+            } catch (c) {
+                console.log(c.message);
+            }
+        }
+
+        //在浏览器本地存储信息
+        function setlocalStorage(a, b) {
+            console.log('正在缓存 '+a)
+            try {
+                "undefined" === typeof localStorage
+                    ? console.log("unsupported localStorage")
+                    : localStorage.setItem(a, b);
+            } catch (c) {
+                console.log(c.message);
+            }
+        }
+
+        //加载监看内容
+        function onloadDevRegMon() {
+            getlocalStorageArray("mainDevRegData");
+            watchStatus = isRegMonitor = 1;
+            showTest = 0;
+            mainTimerCycle = getStorage("mainTimerCycle", mainTimerCycle);
+            viewPageNum = parseInt(getStorage("viewPageNum", 1));
+            var a = mainDevRegData;
+            changePageReg(viewPageNum);
+            for (var b = 0; b < a.length; b++) {
+                var c = b + 1;
+                if ("" != a[b][0]) {
+                    var d = getElIdObj("dev" + c, 1);
+                    d.value = a[b][0];
+                    if (WATCH_AOK & a[b][3]) {
+                        var d = checkDevtype(d.value),
+                            e = getElIdObj("devfmt" + c, 1),
+                            f = getElIdObj("devsize" + c, 1);
+                        WATCH_OKE == a[b][3] && "W" == d && (d = "WS");
+                        setRegMonSelect(e, f, d);
+                        e.value = a[b][1];
+                        f.value = a[b][2];
+                        if (a[b].length>4) {
+                            document.getElementById('remark' + (b - (-1))).value = a[b][4]
+                        }
+                    } else
+                        WATCH_ERR == a[b][3] && (d.style.backgroundColor = "rgb(255,192,192)");
+                    updateSelChange(c);
+                }
+            }
+            monRegStartStop(isRegMonitor);
+        }
+
+        //获取浏览器本地存储信息
+        function getlocalStorageArray(a) {
+            if ("undefined" === typeof mainDevRegData) {
+                mainDevRegData = [];
+                for (let b = 0; b < 2 * MAX_DISP_LINE; b++) {
+                    mainDevRegData[b] = [];
+                    for (let c = 0; 5> c; c++) mainDevRegData[b][c] = "";
+                }
+            }
+            "undefined" === typeof localStorage
+                ? console.log("unsupported localStorage")
+                : localStorage.getItem(a) &&
+                (mainDevRegData = JSON.parse(localStorage.getItem(a)));
+            console.log('正在从浏览器本地加载缓存信息')
+            console.log(mainDevRegData)
+        }
+
+        //浏览器本地存储信息，一般退出时用到
+        function localStorageClear() {
+            localStorage.clear();
+        }
+
+        function setLineColorMon(a, b, c) {
+            setBkCol("devnametd" + a, b, 1);
+            setBkCol("dev" + a, b, 1);
+            setBkCol("disptypetd" + a, b, 1);
+            setBkCol("devfmt" + a, b, 1);
+            setBkCol("datatypetd" + a, b, 1);
+            setBkCol("devsize" + a, b, 1);
+            setBkCol("readvaluetd" + a, b, 1);
+            setBkCol("val" + a, b, 1);
+            setStlCol("dev" + a, c, 1);
+            setStlCol("devfmt" + a, c, 1);
+            setStlCol("devsize" + a, c, 1);
+            setStlCol("readvaluetd" + a, c, 1);
+            setStlCol("val" + a, c, 1);
+        }
+
+        //设置空值样式
+        function setEmptyItemReg(a) {
+            let b = getElIdObj("dev" + a, 1),
+                c = getElIdObj("devfmt" + a, 1),
+                d = getElIdObj("devsize" + a, 1),
+                e = getElIdObj("val" + a, 1);
+            mainDevRegData[a - 1][3] = "";
+            c.options.length = 0;
+            d.options.length = 0;
+            b.style.backgroundColor = "";
+            b.value = "";
+            e.value = "";
+            setLineColorMon(a, "", "");
+            saveWatchTable(a);
+        }
+
+        //设置错误样式
+        function setErrorItemReg(a) {
+            let b = getElIdObj("dev" + a, 1),
+                c = getElIdObj("devfmt" + a, 1),
+                d = getElIdObj("devsize" + a, 1),
+                e = getElIdObj("val" + a, 1);
+            mainDevRegData[a - 1][3] = WATCH_ERR;
+            b.style.backgroundColor = "rgb(255,192,192)";
+            c.options.length = 0;
+            d.options.length = 0;
+            e.value = "";
+            saveWatchTable(a);
+        }
+
+
+        function changeDataTypeList(a) {
+            updateSelChange(a);
+            saveWatchTable(a);
+            monRegStartStop(isRegMonitor);
+        }
+        function updateSelChange(a) {
+            let b = getElIdObj("devfmt" + a, 1);
+            a = getElIdObj("devsize" + a, 1);
+            changeFmtSelectStyle(a, b);
+        }
+
+        function changeFmtSelectStyle(a, b) {
+            switch (a.value) {
+                case "1":
+                    break;
+                case "2":
+                case "3":
+                case "4":
+                case "5":
+                    b.options[0].text = getRadixTypeStr(10);
+                    b.disabled = !1;
+                    break;
+                case "6":
+                case "7":
+                    b.options[0].text = "--";
+                    b.value = 10;
+                    b.disabled = !0;
+                    break;
+                default:
+                    (b.value = 10), (b.disabled = !1);
+            }
+        }
+
+        function getRadixTypeStr(a) {
+            for (let b = "--", c = 0; c < radixTypeString.length; c++)
+                if (a == radixTypeString[c][0]) {
+                    b = radixTypeString[c][1];
+                    break;
+                }
+            return b;
+        }
+
+
+        //注册监视页面设备测试弹窗
+        function onRegMonDevTestLayer(a) {
+            if (0 != isRegMonitor) {
+                checkWacthDev(0);
+                let b = getElIdVal("dev" + a, 1);
+                0 != (WATCH_AOK & mainDevRegData[a - 1][3]) &&
+                    ((tstDev = b),
+                        (tstFmt = getElIdObj("devfmt" + a, 1)),
+                        (tstType = getElIdObj("devsize" + a, 1)),
+                        (tstVal = getElIdObj("val" + a, 1)),
+                        (tstUpdateFn = function () {
+                            monRegStartStop(isRegMonitor);
+                        }),
+                        modalOpenDevTest());
+            }
+        }
+
+        //网页会话记录isRegMonitor值
+        function monRegStartStop(a) {
+            1 == a
+                ? ((isRegMonitor = 1), onRegTimerStart())
+                : (onRegTimerStop(), (isRegMonitor = 0));
+            setStorage("isRegMonitor", isRegMonitor);
+        }
+
+        function modalOpenDevTest() {
+            try {
+                document.getElementById("modal-win").style.display = "block";
+                document.getElementById("modal-devtest").style.display = "block";
+                document.getElementById("devtest-frame").contentWindow.startDevTestWindow();
+            }
+            catch { }
+        }
+
+
+        function checkWacthDev(a) {
+            let b = 0,
+                c,
+                d,
+                e,
+                f = mainDevRegData;
+            2 == viewPageNum && (b = MAX_DISP_LINE);
+            for (let g = 0; g < MAX_DISP_LINE; g++)
+                (c = g + b),
+                    (d = c + 1),
+                    a != d &&
+                    ((e = getElIdVal("dev" + d, 1)),
+                        e != f[c][0]
+                            ? setEmptyItemReg(d)
+                            : (("" != e && "" == f[c][1] && f[c][3] != WATCH_ERR) ||
+                                ("" == e && "" != f[c][1])) &&
+                            setEmptyItemReg(d));
+        }
+
+        //获取设备变量数组
+        function getStorageArray(a) {
+            if ("undefined" === typeof mainDevRegData) {
+                mainDevRegData = [];
+                for (let b = 0; b < 2 * MAX_DISP_LINE; b++) {
+                    mainDevRegData[b] = [];
+                    for (let c = 0; 4 > c; c++) mainDevRegData[b][c] = "";
+                }
+            }
+            "undefined" === typeof sessionStorage
+                ? console.log("unsupported sessionStorage")
+                : sessionStorage.getItem(a) &&
+                (mainDevRegData = JSON.parse(sessionStorage.getItem(a)));
+        }
+
+        getStorageArray("mainDevRegData");
+
+        //获取数据类型的对应数字编号
+        function getNumType(a) {
+            switch (a) {
+                case "X":
+                case "Y":
+                    a = 8;
+                    break;
+                case "B":
+                case "SB":
+                case "W":
+                case "SW":
+                    a = 16;
+                    break;
+                case "D":
+                case "M":
+                case "L":
+                case "F":
+                case "TS":
+                case "STS":
+                case "CS":
+                case "LCS":
+                case "SM":
+                case "SD":
+                case "R":
+                case "Z":
+                case "LZ":
+                case "TC":
+                case "TN":
+                case "STC":
+                case "STN":
+                case "CC":
+                case "CN":
+                case "LCC":
+                case "LCN":
+                case "BL":
+                    a = 10;
+                    break;
+                default:
+                    a = 10;
+            }
+            return a;
+        }
+        //检查设备对应数据类型
+        function checkDevtype(a, b) {
+            let c = "ERR",
+                d = [
+                    ["LCN", 3, "D"],
+                    ["LCS", 3, "B"],
+                    ["LCC", 3, "B"],
+                    ["LC", 2, "D"],
+                    ["STN", 3, "S"],
+                    ["STS", 3, "B"],
+                    ["STC", 3, "B"],
+                    ["ST", 2, "S"],
+                    ["CN", 2, "S"],
+                    ["CS", 2, "B"],
+                    ["CC", 2, "B"],
+                    ["C", 1, "S"],
+                    ["TN", 2, "S"],
+                    ["TS", 2, "B"],
+                    ["TC", 2, "B"],
+                    ["T", 1, "S"],
+                    ["LZ", 2, "DS"],
+                    ["SD", 2, "W"],
+                    ["SW", 2, "W"],
+                    ["SM", 2, "B"],
+                    ["SB", 2, "B"],
+                    ["BL", 2, "B"],
+                    ["Z", 1, "W"],
+                    ["R", 1, "W"],
+                    ["W", 1, "W"],
+                    ["D", 1, "W"],
+                    ["S", 1, "B"],
+                    ["F", 1, "B"],
+                    ["B", 1, "B"],
+                    ["L", 1, "B"],
+                    ["M", 1, "B"],
+                    ["Y", 1, "B"],
+                    ["X", 1, "B"],
+                    ["U0\\G", 4, "W"],
+                    ["U1\\G", 4, "W"],
+                    ["U2\\G", 4, "W"],
+                    ["U3\\G", 4, "W"],
+                    ["U4\\G", 4, "W"],
+                    ["U5\\G", 4, "W"],
+                    ["U6\\G", 4, "W"],
+                    ["U7\\G", 4, "W"],
+                    ["U8\\G", 4, "W"],
+                    ["U9\\G", 4, "W"],
+                    ["UA\\G", 4, "W"],
+                    ["UB\\G", 4, "W"],
+                    ["UC\\G", 4, "W"],
+                    ["UD\\G", 4, "W"],
+                    ["UE\\G", 4, "W"],
+                    ["UF\\G", 4, "W"],
+                    ["U10\\G", 5, "W"],
+                ],
+                e,
+                f,
+                g;
+            //测试是否是PLC模块
+            f = new RegExp(/BL[0-9]+\\S[0-9]+$/);
+            if (f.test(a))
+                return (
+                    b &&
+                    ((g = a.match(/\d+$/)),
+                        (g = parseInt(g, 10).toString(10)),
+                        (c = a.match(/^.*S/)),
+                        (b[0] = c + g)),
+                    "B"
+                );
+            //16进制0-F还是8进制0-7还是10进制
+            for (let h = 0; h < d.length; h++)
+                if (d[h][0] == a.substr(0, d[h][1])) {
+                    e = a.slice(d[h][1]);
+                    if ("" == e) break;
+                    f = getNumType(d[h][0]);
+                    16 == f
+                        ? ((f = new RegExp(/^[0-9a-fA-F]+$/)),
+                            b && (g = parseInt(e, 16).toString(16).toLocaleUpperCase()))
+                        : ((f = 8 == f ? new RegExp(/^[0-7]+$/) : new RegExp(/^[0-9]+$/)),
+                            b && (g = parseInt(e, 10).toString(10)));
+                    f.test(e) && ((c = d[h][2]), b && (b[0] = d[h][0] + g));
+                    break;
+                }
+            return c;
+        }
+
+        //改变设备X输入 / Y输出类型
+        function changeDevItem(a) {
+            let b = a;
+            0 == b.indexOf("X")
+                ? ((b = b.substr(b.indexOf("X") + 1, b.length)),
+                    (b = parseInt(b, 8)),
+                    (a = "X" + b.toString(16)))
+                : 0 == b.indexOf("Y") &&
+                ((b = b.substr(b.indexOf("Y") + 1, b.length)),
+                    (b = parseInt(b, 8)),
+                    (a = "Y" + b.toString(16)));
+            return a;
+        }
+
+        function checkInputDevice(a, b, c) {
+            let d = 1,e;
+            let f;
+            f = new XMLHttpRequest();
+            //onTimerStopForW10(); 不用停止
+
+            "W" == c && (d = 2);
+            e = changeDevItem(a);
+
+            //console.log(a)  添加的PLC变量地址
+            //console.log(b)
+            //console.log(c)  添加的PLC变量数据类型
+
+
+
+            checkInputDevice_Response(f, a, b, c);
+
+
+        }
+
+        function checkInputDevice_Response(a, b, c, d) {
+            let e = getElIdObj("dev" + c, 1),
+                f = getElIdObj("devfmt" + c, 1),
+                g = getElIdObj("devsize" + c, 1);
+            "W" == d && 1 == a.length
+                ? ((d = "WS"), (mainDevRegData[c - 1][3] = WATCH_OKE))
+                : (mainDevRegData[c - 1][3] = WATCH_OK);
+            setRegMonSelect(f, g, d);
+            e.style.backgroundColor = "";
+            e.value = b;
+            saveWatchTable(c);
+            monRegStartStop(1);
+            (b = getElIdObj("dev" + (c + 1), 1)) && b.focus();
+            entChk = 0;
+
+        }
+
+        function onTimerStartForW10() {
+            onTimerStopForW10();
+            timeout_10 <= 1e3 * mainTimerCycle &&
+                (timerID_10 = setInterval(ReqCgiForW10, 0.5 * timeout_10));
+        }
+        function onTimerStopForW10() {
+            timerID_10 && (clearInterval(timerID_10), (timerID_10 = 0));
+        }
+     
+        function getRadixTypeStr(a) {
+            let b = "--"
+            for ( c = 0; c < radixTypeString.length; c++)
+                if (a == radixTypeString[c][0]) {
+                    b = radixTypeString[c][1];
+                    break;
+                }
+            return b;
+        }
+
+        function getDataTypeStr(a) {
+            return dataTypeString[a];
+        }
+
+
+        function setRegMonSelect(a, b, c) {
+            let d = a.options;
+            b = b.options;
+            d.length = 0;
+            b.length = 0;
+            "B" == c
+                ? ((d[0] = new Option(getRadixTypeStr(2))),
+                    (d[0].value = 2),
+                    (b[0] = new Option(getDataTypeStr(1))),
+                    (b[0].value = 1))
+                : "S" == c
+                    ? ((d[0] = new Option(getRadixTypeStr(10))),
+                        (d[0].value = 10),
+                        (d[1] = new Option(getRadixTypeStr(16))),
+                        (d[1].value = 16),
+                        (b[0] = new Option(getDataTypeStr(3))),
+                        (b[0].value = 3))
+                    : "D" == c
+                        ? ((d[0] = new Option(getRadixTypeStr(10))),
+                            (d[0].value = 10),
+                            (d[1] = new Option(getRadixTypeStr(16))),
+                            (d[1].value = 16),
+                            (b[0] = new Option(getDataTypeStr(5))),
+                            (b[0].value = 5),
+                            (b[1] = new Option(getDataTypeStr(4))),
+                            (b[1].value = 4),
+                            (b[1].selected = !0))
+                        : "DS" == c
+                            ? ((d[0] = new Option(getRadixTypeStr(10))),
+                                (d[0].value = 10),
+                                (d[1] = new Option(getRadixTypeStr(16))),
+                                (d[1].value = 16),
+                                (b[0] = new Option(getDataTypeStr(5))),
+                                (b[0].value = 5),
+                                (b[1] = new Option(getDataTypeStr(4))),
+                                (b[1].value = 4),
+                                (b[2] = new Option(getDataTypeStr(6))),
+                                (b[2].value = 6),
+                                (b[1].selected = !0))
+                            : "W" == c
+                                ? ((d[0] = new Option(getRadixTypeStr(10))),
+                                    (d[0].value = 10),
+                                    (d[1] = new Option(getRadixTypeStr(16))),
+                                    (d[1].value = 16),
+                                    (b[0] = new Option(getDataTypeStr(3))),
+                                    (b[0].value = 3),
+                                    (b[1] = new Option(getDataTypeStr(5))),
+                                    (b[1].value = 5),
+                                    (b[2] = new Option(getDataTypeStr(2))),
+                                    (b[2].value = 2),
+                                    (b[3] = new Option(getDataTypeStr(4))),
+                                    (b[3].value = 4),
+                                    (b[4] = new Option(getDataTypeStr(6))),
+                                    (b[4].value = 6),
+                                    (b[2].selected = !0))
+                                : "WS" == c &&
+                                ((d[0] = new Option(getRadixTypeStr(10))),
+                                    (d[0].value = 10),
+                                    (d[1] = new Option(getRadixTypeStr(16))),
+                                    (d[1].value = 16),
+                                    (b[0] = new Option(getDataTypeStr(3))),
+                                    (b[0].value = 3),
+                                    (b[1] = new Option(getDataTypeStr(2))),
+                                    (b[1].value = 2),
+                                    (b[1].selected = !0));
+            d[0].selected = !0;
+            a.disabled = !1;
+        }
+
+        //开始监视
+        function onRegTimerStart() {
+            onRegTimerStop();
+            updateRegTable();
+            timerID_reg = setInterval(updateRegTable, 1e3 * mainTimerCycle);
+        }
+
+        //按时刷新
+        function onRegTimerStop() {
+            timerID_reg && clearInterval(timerID_reg);
+        }
+        //读取并渲染
+        function updateRegTable() {
+            ReadDeviceRandom();
+        }
+
+        //核心方法，读取当前监看表对应PLC变量的值
+        function ReadDeviceRandom() {
+            let indexArr=[]
+            var a = [],
+                b = 0,
+                c,
+                d,
+                e = 0;
+            onTimerStopForW10();
+            try {
+                //console.log(viewPageNum) 当前监看页面
+                2 == viewPageNum && (b = MAX_DISP_LINE);
+                //console.log(b) 获取偏移量
+                for (var f = mainDevRegData, g = 0; g < MAX_DISP_LINE; g++)
+                //(d = g + b), WATCH_AOK & f[d][3] && ((a[e] = f[d]), e++);
+                {
+                    (d = g + b), WATCH_AOK & f[d][3] && ((a[e] = f[d]), e++, indexArr.push(d));
+                }
+
+                //var h = "NUM=" + e.toString(16) + "&";
+                var h = "（" + e.toString(16) + ",";
+
+                //console.log(e) //当前监看列表总数
+                //console.log(indexArr) //当前正在监控变量在数组中的索引
+                //console.log(mainDevRegData)  //监控变量在数组
+                if (1 > e) h = "";
+                else {
+                    for (b = 0; b < e; b++) {
+                        c = b + 1;
+                        var k = a[b],
+                            m,
+                            l;
+                        m = changeDevItem(k[0]);
+                        let plcAddr = encodeURIComponent(m); //转化后的地址
+                        switch (k[2]) {
+                            case "1":
+                                l = "bool";
+                                break;
+                            case "3":
+                                l = "ushort";
+                                break;
+                            case "5":
+                                l = "uint";
+                                break;
+
+                            case "2":
+                                l = "short";
+                                break;
+                            case "4":
+                                l = "int";
+                                break;
+                            case "6":
+                                l = "float";
+                                break;
+                            default:
+                                l = "";
+                        }
+
+                        //console.log(m + ', type=' + l + ', 位于监控列表数组（总数64）index=' +(indexArr[0]+1))
+
+
+
+                        invokeDotNetPlcMethod(plcAddr, l, indexArr[0])   //调用C#方法读取PLC变量值，更新页面显示
+
+                        indexArr.shift()
+
+                    }
+                    
+                      
+
+                }
+            } catch (n) {
+                console.log(n.message);
+            }
+        }
+
+
+        function watchBtnClick(a) {
+            changePageReg(a);
+            monRegStartStop(isRegMonitor);
+        }
+
+        //更换watch（监视）表1或2
+        function changePageReg(a) {
+            var b = getElIdObj("wordtable1", 1),
+                c = getElIdObj("wordtable2", 1),
+                d = getElIdObj("watchbtn1", 1),
+                e = getElIdObj("watchbtn2", 1);
+            switch (a) {
+                case 1:
+                    b.style.display = "";
+                    c.style.display = "none";
+                    d.style.color = WATCH_BTN_SELECT;
+                    d.style.backgroundColor = WATCH_BTN_SELECT_BG;
+                    d.style.fontWeight = "bold";
+                    e.style.color = "";
+                    e.style.backgroundColor = "";
+                    e.style.fontWeight = "";
+                    viewPageNum = 1;
+                    break;
+                case 2:
+                    (b.style.display = "none"),
+                        (c.style.display = ""),
+                        (d.style.className = "watchbtn"),
+                        (e.style.className = "selwatchbtn"),
+                        (d.style.color = ""),
+                        (d.style.backgroundColor = ""),
+                        (d.style.fontWeight = ""),
+                        (e.style.color = WATCH_BTN_SELECT),
+                        (e.style.backgroundColor = WATCH_BTN_SELECT_BG),
+                        (e.style.fontWeight = "bold"),
+                        (viewPageNum = 2);
+            }
+            setStorage("viewPageNum", viewPageNum);
+        }
+
+        //清除监控表内容
+        function onWatchDataClear() {
+            dataClearReview(viewPageNum);
+        }
+
+        //清除监控表内容
+        function dataClearReview(tableNum) {
+            //console.log(tableNum) //清空监看列表1或者2
+            var a = getErrorStr("msg_clear");
+            ret = confirm(a);
+            1 == ret &&
+                (
+                    //localStorageClear(),
+                nullLiteral(tableNum),
+                arrayClear(tableNum)
+                    //reloadChildFrame()
+                );
+        }
+
+        function arrayClear(tableNum) {
+            for (var a = 32 * (tableNum - 1); a < tableNum * 32; a++) {
+                mainDevRegData[a] = [];
+                for (var b = 0; 5 > b; b++) mainDevRegData[a][b] = "";
+            }
+        }
+
+        function nullLiteral(tableNum) {
+            for (var i = 32 * (tableNum - 1); i < tableNum * 32; i++) {
+                document.getElementById('dev' + (i - (-1))).value = ''
+                document.getElementById('remark' + (i - (-1))).value = ''
+                document.getElementById('val' + (i - (-1))).value =''
+            }
+        }
+
+        function getErrorStr(a) {
+            for (var b = "", c = 0; c < errorString.length; c++)
+                if (a == errorString[c][0]) {
+                    b = errorString[c][1];
+                    break;
+                }
+            0 == b.length &&
+                (b = "[ " + a + " ] : " + errorString[errorString.length - 1][1]);
+            return b;
+        }
+        //设置HTML元素element内的值
+        function setElIdVal(a, b, c) {
+            1 == c
+                ? (document.getElementById(a).value = b)
+                : 2 == c
+                    ? ( document.getElementById(a).value = b)
+                    : (document.getElementById(a).value = b);
+        }
+
+        //设置监看备注
+        function onRegDevReamrk(i) {
+            if (mainDevRegData) {
+                mainDevRegData[i-1][4] = document.getElementById('remark'+i).value
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>PLC变量监控主页面</h2>
+    <div class="navBar">
+        主页 | <a href="/manual.html">使用说明</a>
+    </div>
+
+
+    <div id="watchouttbl">
+        <table id="watchheadtable">
+            <tr>
+                <td class="watch1">
+                    <input id="watchbtn1" class="watchbtn" type="button" value="监看列表1" onclick="watchBtnClick(1)" />
+                </td>
+                <td class="watch2">
+                    <input id="watchbtn2" class="watchbtn" type="button" value="监看列表2" onclick="watchBtnClick(2)" />
+                </td>
+                <td class="dataclear">
+                    <input id="devdataclear" class="watchbtn" type="button" value="清空当前列表" onclick="onWatchDataClear()" />
+                </td>
+                <td></td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+        </table>
+
+        <table id="watchtable" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr style="height:56px;">
+                    <th class="devname">&nbsp;软元件</th>
+                    <th class="disptype">&nbsp;显示格式</th>
+                    <th class="datatype">&nbsp;数据类型</th>
+                    <th class="remark">&nbsp;备注</th>
+                    <th class="readvalue">&nbsp;当前值</th>
+                </tr>
+            </thead>
+            <tbody id="wordtable1">
+            </tbody>
+            <tbody id="wordtable2">
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+    <script>
+        function initTable1() {
+            let Table=''
+            for (let i = 1; i <= 32; i++) {
+                Table +="<tr>";
+                Table +='<td id="devnametd' + i + '" class="devname" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')">';
+                Table +='<input type="text" id="dev' + i + '" class="regctl" maxlength="11" onChange="onChangeText(' + i + ')" onkeypress="onEnterText(event.keyCode,' + i + ')" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')" ondragover="return false"/>';
+                Table += "</td>";
+
+                Table +='<td id="disptypetd' + i + '" class="disptype" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')">';
+                Table +='<select id="devfmt' + i + '" onchange="changeNumTypeList(' + i + ')"/>';
+                Table += "</td>";
+
+                Table +='<td id="datatypetd' + i + '" class="datatype" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')">';
+                Table +='<select id="devsize' + i + '" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')" onchange="changeDataTypeList(' + i + ')"/>';
+                Table += "</td>";
+
+                Table += '<td id="devremark' + i + '" class="remark" >';
+                Table += '<input type="text" id="remark' + i + '" class="remarkval" onblur="onRegDevReamrk(' + i + ')"   />';
+                Table += "</td>";
+
+                Table +='<td id="readvaluetd' + i + '" class="readvalue" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')">';
+                Table +='<input type="text" id="val' + i + '" class="regval" onclick="onRegMonDevTestLayer(' + i + ')" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')" readonly/>';
+                Table +="</td>";
+                Table +="</tr>";
+            }
+            document.getElementById("wordtable1").innerHTML = Table;
+        }
+        function initTable2() {
+            let Table = ''
+            for (let i = 33; i <= 64; i++) {
+                Table += "<tr>";
+                Table += '<td id="devnametd' + i + '" class="devname" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')">';
+                Table += '<input type="text" id="dev' + i + '" class="regctl" maxlength="11" onChange="onChangeText(' + i + ')" onkeypress="onEnterText(event.keyCode,' + i + ')" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')" ondragover="return false"/>';
+                Table += "</td>";
+
+                Table += '<td id="disptypetd' + i + '" class="disptype" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')">';
+                Table += '<select id="devfmt' + i + '" onchange="changeNumTypeList(' + i + ')"/>';
+                Table += "</td>";
+
+                Table += '<td id="datatypetd' + i + '" class="datatype" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')">';
+                Table += '<select id="devsize' + i + '" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')" onchange="changeDataTypeList(' + i + ')"/>';
+                Table += "</td>";
+
+                Table += '<td id="devremark' + i + '" class="remark" >';
+                Table += '<input type="text" id="remark' + i + '" class="remarkval" onblur="onRegDevReamrk(' + i + ')"   />';
+                Table += "</td>";
+
+                Table += '<td id="readvaluetd' + i + '" class="readvalue" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')">';
+                Table += '<input type="text" id="val' + i + '" class="regval" onclick="onRegMonDevTestLayer(' + i + ')" onmouseover="onRegMouseOver(' + i + ')" onmouseout="onRegMouseOut(' + i + ')" readonly/>';
+                Table += "</td>";
+                Table += "</tr>";
+            }
+            document.getElementById("wordtable2").innerHTML = Table;
+        }
+
+
+        initTable1()
+        initTable2()
+
+        onloadDevRegMon()
+        watchBtnClick(1)
+
+        //关键方法，调用C#去读取PLC的值，然后更新页面
+        async function invokeDotNetPlcMethod(addr, type, index) {
+            //console.log(type)
+            //没有对应的数据类型
+            if (type=='') {
+                document.getElementById('val' + (index - (-1))).value = '不支持的数据类型'
+                document.getElementById('val' + (index - (-1))).style.backgroundColor = 'red'
+                return
+            }   
+
+            let plcAddr = mainDevRegData[index][0]
+            let remark = mainDevRegData[index][4] ? mainDevRegData[index][4] :''
+            let data = await HybridWebView.SendInvokeMessageToDotNetAsync('readPLCVal', [addr, type, plcAddr, remark]);
+            //console.log(data)
+            if (data == "未连接设备") return
+            if (data == "不支持的数据类型") {
+                document.getElementById('val' + (index - (-1))).style.backgroundColor = 'red'
+                return
+            }
+            if (data == "读取操作通讯失败") {
+                document.getElementById('val' + (index - (-1))).value = '读取失败(暂不支持此类型)'
+                document.getElementById('val' + (index - (-1))).style.backgroundColor = 'red'
+                return
+            }
+            document.getElementById('val' + (index - (-1))).value = data
+            document.getElementById('val' + (index - (-1))).style.backgroundColor = 'lightgreen'
+        }
+
+
+
+
+    </script>
+    <script>
+        // 通知C#后台当前HTML页面编号 0
+        HybridWebView.SendRawMessageToDotNet("page:0");
+    </script>
+</body>
+</html>

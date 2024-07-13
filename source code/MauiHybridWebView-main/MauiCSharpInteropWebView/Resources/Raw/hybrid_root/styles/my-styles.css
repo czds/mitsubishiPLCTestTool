@@ -1,0 +1,1763 @@
+﻿body {
+    background-color: beige;
+    font-family: Arial;
+    padding: 1em;
+}
+
+h1 {
+    font-weight: 600;
+    padding-left: .5em;
+}
+
+h2 {
+    font-size: 1.1em;
+    font-weight: 500;
+    padding-left: .5em;
+}
+
+div{
+    margin-top: .5em;
+}
+
+.navBar {
+    padding: .5em;
+    margin: .5em;
+    border: 1px solid darkgray;
+}
+
+
+/* -------------------------------------------------------------------------------- */
+/* 全画面共通定義																	*/
+/* -------------------------------------------------------------------------------- */
+html {
+    height: 100%;
+}
+
+body {
+    font-family: "HiraginoSans-W6", "HiraginoSans-W3", "Meiryo";
+    font-size: 18px;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#innerbody {
+    margin: 0px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+thead {
+    background-color: rgb(185,192,201);
+}
+
+/*Log-in_ja.html*******************************/
+#login {
+    height: 100%;
+    height: auto !important;
+    position: relative;
+    min-height: 100%;
+}
+
+    #login input {
+        font-size: 18px;
+        width: 120px;
+        border: 1px solid slategray;
+    }
+
+    #login .cpuname {
+        font-size: 40px;
+        margin: 20px 0px 20px 0px;
+    }
+
+    #login .user {
+        text-align: right;
+    }
+
+    #login .pass {
+        text-align: right;
+    }
+
+::-ms-reveal {
+    display: none;
+}
+
+#login .loginbtn {
+    width: 100px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+#login .statushead {
+    padding: 0;
+    margin: 0;
+    border: 0px solid gray;
+    height: 42px;
+}
+
+#login .copyright {
+    width: 99%;
+    margin: 10px 0px 0px 0px;
+    height: 60px;
+    position: absolute;
+    bottom: 0;
+}
+
+#login hr {
+    width: 99%;
+    border: 1px solid red;
+}
+
+#login .normal {
+    background-color: rgb(255,255,255);
+}
+
+#login .error {
+    background-color: rgb(255,192,192);
+}
+
+#msgArea {
+    font-size: 30px;
+    width: 100%;
+    text-align: center;
+    color: black;
+}
+
+.logoimg {
+    width: 159px;
+    height: 51px;
+}
+
+.logoimg3 {
+    width: 197px;
+    height: 38px;
+}
+
+#login .container {
+    height: auto;
+    padding-bottom: 70px;
+}
+
+/*Main.html********************************************/
+.menutable {
+    height: 100%;
+    border-collapse: collapse;
+    background-color: rgb(221,221,221);
+}
+
+.menutabletdleft {
+    height: 100%;
+    width: 220px;
+    vertical-align: top;
+    margin: 0px;
+    padding: 0px;
+}
+
+.menutabletdright {
+    height: 100%;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0px;
+    padding: 0px;
+    background-color: rgb(52,146,232);
+}
+
+.nestframe {
+    height: 100%;
+    width: 1105px;
+    background-color: rgb(52,146,232);
+}
+
+.logoimg2 {
+    padding-top: 10px;
+    height: 34px;
+    width: 177px;
+}
+
+/*Menu.html********************************************/
+#menu input {
+    font-size: 18px;
+    border: 1px solid slategray;
+}
+
+#menu {
+    font-size: 18px;
+    background-color: rgb(221,221,221);
+    height: 796px;
+}
+
+    #menu td {
+        vertical-align: top;
+    }
+/*link text settings*/
+a.menubtn {
+    color: black;
+    display: block;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-collapse: collapse;
+    border: 1px solid;
+    border-color: rgb(140,140,140) rgb(52,146,232) rgb(140,140,140) rgb(140,140,140);
+    background-color: rgb(237,244,252);
+}
+
+#menu a:link.menubtn {
+    border-collapse: collapse;
+    text-decoration: none;
+}
+
+#menu a:visited.menubtn {
+    border-color: rgb(140,140,140);
+    border-color: rgb(140,140,140) rgb(52,146,232) rgb(140,140,140) rgb(140,140,140);
+    color: black;
+}
+
+#menu a:hover.menubtn {
+    color: rgb(13,81,179);
+    background-color: rgb(189,205,226);
+}
+
+#menu a:active.menubtn {
+    color: black;
+}
+
+#menu .radiusbtn {
+    background-color: rgb(185,192,201);
+    text-align: center;
+    border-radius: 3px;
+}
+
+#menu input.radiusbtn:hover {
+    cursor: auto;
+}
+
+#menu input .radiusbtn:disabled {
+    cursor: auto;
+}
+
+#menuhead {
+    width: 240px;
+    background-color: rgb(221,221,221);
+    border-collapse: collapse;
+}
+
+    #menuhead .unittbl {
+        width: 50%;
+    }
+
+    #menuhead .fx5ucimg {
+        height: 83px;
+        width: 53px;
+    }
+
+    #menuhead .fx5uimg {
+        height: 77px;
+        width: 100px;
+    }
+
+@keyframes blinkred {
+    0% {
+        background-color: black;
+    }
+
+    40% {
+        background-color: black;
+    }
+
+    60% {
+        background-color: rgb(255, 0, 0);
+    }
+
+    100% {
+        background-color: rgb(255, 0, 0);
+    }
+}
+
+@keyframes blinkgreen {
+    0% {
+        background-color: black;
+    }
+
+    40% {
+        background-color: black;
+    }
+
+    60% {
+        background-color: rgb(124,252,0);
+    }
+
+    100% {
+        background-color: rgb(124,252,0);
+    }
+}
+
+#ledtbl {
+    border-collapse: separate;
+    background-color: rgb(221,221,221);
+}
+
+    #ledtbl .roundbox {
+        border-radius: 10px;
+        border: solid 1px black;
+        width: 30px;
+        height: 15px;
+        background-color: black;
+    }
+
+#defaultitemtable {
+    font-size: 14px;
+    width: 240px;
+    border: none;
+    margin-top: 80px
+}
+
+    #defaultitemtable tr {
+        height: 15px;
+    }
+
+    #defaultitemtable .labeltext {
+        font-size: 16px;
+        padding-left: 5px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        text-align: left;
+    }
+
+    #defaultitemtable .reloadcycleinput {
+        height: 25px;
+        width: 40px;
+        padding-left: 5px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        border: 1px solid;
+        border-color: gray;
+        text-align: right;
+    }
+
+    #defaultitemtable .chglanguage {
+        height: 25px;
+        width: 90%;
+        padding-left: 5px;
+        border: 1px solid slategray;
+    }
+
+    #defaultitemtable a.logout {
+        display: block;
+        color: black;
+        width: 100%;
+        padding-left: 5px;
+    }
+
+    #defaultitemtable a:link.logout {
+        color: black;
+    }
+
+    #defaultitemtable a:visited.logout {
+        color: black;
+        text-decoration: none;
+    }
+
+/*Default.html*************************/
+#unittbl {
+    width: 600px;
+    border-collapse: collapse;
+    border: 1px gray solid;
+}
+
+    #unittbl tr {
+        height: 30px;
+        background-color: rgb(255,255,255);
+    }
+
+        #unittbl tr:nth-child(even) {
+            background-color: rgb(233,235,236);
+        }
+
+    #unittbl th {
+        width: 300px;
+        border: 1px gray solid;
+        text-align: left;
+        border-top: 0px;
+        border-bottom: 0px;
+        padding-left: 5px;
+    }
+
+    #unittbl td {
+        width: 300px;
+        border: 1px gray solid;
+        text-align: left;
+        border-top: 0px;
+        border-bottom: 0px;
+        padding-left: 5px;
+    }
+
+#unitouttbl {
+    padding-top: 5px;
+    padding-left: 5px;
+    width: 895px;
+    height: 600px;
+    background-color: rgb(221,221,221);
+}
+
+/*DevBatMon_ja.html****************/
+#monouttbl {
+    padding-top: 5px;
+    padding-left: 5px;
+    width: 895px;
+    height: 690px;
+    background-color: rgb(221,221,221);
+}
+
+#monitorsetting input {
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid slategray;
+}
+
+#monitorsetting .unitNo {
+    width: 60px;
+    height: 28px;
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid slategray;
+}
+
+#monitorsetting .radiotd {
+    width: 165px;
+}
+
+#monitorsetting .adrtd {
+    width: 165px;
+}
+
+#settingerar {
+    width: 890px;
+    background: rgb(221,221,221);
+}
+
+    #settingerar .prevNextErar {
+        width: 890px;
+    }
+
+    #settingerar .prevBtntd {
+        text-align: left;
+    }
+
+    #settingerar .nextBtntd {
+        text-align: right;
+    }
+
+    #settingerar .prevnextBtn {
+        border-radius: 3px;
+        background-color: rgb(185,192,201);
+    }
+
+        #settingerar .prevnextBtn:hover {
+            cursor: auto;
+        }
+
+    #settingerar input.prevnextBtn:disabled {
+        cursor: auto;
+    }
+
+#monitorsetting {
+    font-size: 16px;
+    text-align: left;
+}
+
+    #monitorsetting .texterea {
+        width: 60px;
+        font-size: 16px;
+    }
+
+    #monitorsetting select {
+        width: 80px;
+        height: 28px;
+        font-size: 16px;
+        text-align: left;
+        border: 1px solid slategray;
+    }
+
+#displaysetting {
+    font-size: 16px;
+}
+
+    #displaysetting .datatype {
+        width: 220px;
+        height: 28px;
+        font-size: 16px;
+        text-align: left;
+        vertical-align: middle;
+        border: 1px solid slategray;
+    }
+
+    #displaysetting .disptype {
+        width: 100px;
+        height: 28px;
+        font-size: 16px;
+        text-align: left;
+        vertical-align: middle;
+        border: 1px solid slategray;
+    }
+
+    #displaysetting .partdisp {
+        width: 155px;
+        height: 28px;
+        font-size: 16px;
+        text-align: left;
+        vertical-align: middle;
+        border: 1px solid slategray;
+    }
+
+    #displaysetting .bitsort {
+        width: 75px;
+        height: 28px;
+        font-size: 16px;
+        text-align: left;
+        vertical-align: middle;
+        border: 1px solid slategray;
+    }
+
+#monitortable1 {
+    border-collapse: collapse;
+    width: 890px;
+    margin: 0px;
+    padding: 0px;
+    background: rgb(185,192,201);
+}
+
+    #monitortable1 tbody {
+        height: 418px;
+        float: left;
+        overflow: auto;
+    }
+
+    #monitortable1 tr {
+        height: 40px;
+        width: 870px;
+        float: left;
+    }
+
+        #monitortable1 tr:nth-child(odd) td {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable1 tr:nth-child(odd) input {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable1 tr:nth-child(odd) td.readvalue:hover {
+            background: rgb(189,205,226);
+        }
+
+        #monitortable1 tr:nth-child(odd) input.readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(189,205,226);
+        }
+
+        #monitortable1 tr:nth-child(even) td.readvalue:hover {
+            background: rgb(207,221,242);
+        }
+
+        #monitortable1 tr:nth-child(even) input.readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(207,221,242);
+        }
+
+    #monitortable1 th {
+        height: 40px;
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        font-weight: normal;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+        #monitortable1 th.readvalue {
+            text-align: left;
+        }
+
+    #monitortable1 td {
+        font-size: 17px;
+        height: 40px;
+        border: 1px gray solid;
+        text-align: center;
+        background: rgb(255,255,255);
+        border-top: 0px;
+        border-bottom: 0px;
+        margin: 0 auto;
+    }
+
+    #monitortable1 .devname {
+        width: 174px;
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    #monitortable1 .readvalue {
+        width: 691px;
+        margin: 0 auto;
+    }
+
+    #monitortable1 .readinput {
+        font-size: 16px;
+        width: 90%;
+        height: 80%;
+        border: 0px;
+        text-align: right;
+    }
+
+#monitortable2 {
+    border-collapse: collapse;
+    width: 890px;
+    margin: 0px;
+    padding: 0px;
+    background: rgb(185,192,201);
+}
+
+    #monitortable2 tbody {
+        height: 418px;
+        float: left;
+        overflow: auto;
+    }
+
+    #monitortable2 tr {
+        height: 40px;
+        width: 870px;
+        float: left;
+    }
+
+        #monitortable2 tr:nth-child(odd) td {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable2 tr:nth-child(odd) input {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable2 tr:nth-child(odd) td.readvaluebit8:hover {
+            background: rgb(189,205,226);
+        }
+
+        #monitortable2 tr:nth-child(odd) input.readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(189,205,226);
+        }
+
+        #monitortable2 tr:nth-child(even) td.readvaluebit8:hover {
+            background: rgb(207,221,242);
+        }
+
+        #monitortable2 tr:nth-child(even) input.readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(207,221,242);
+        }
+
+    #monitortable2 th {
+        height: 40px;
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        font-weight: normal;
+        margin: 0 auto;
+    }
+
+    #monitortable2 td {
+        font-size: 17px;
+        height: 40px;
+        border: 1px gray solid;
+        text-align: center;
+        background: rgb(255,255,255);
+        border-top: 0px;
+        border-bottom: 0px;
+        margin: 0 auto;
+    }
+
+    #monitortable2 .devname {
+        width: 174px;
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    #monitortable2 .readvaluebit8 {
+        width: 85px;
+        margin: 0 auto;
+    }
+
+    #monitortable2 .readinput {
+        font-size: 16px;
+        width: 80%;
+        height: 80%;
+        border: 0px;
+        text-align: right;
+    }
+
+#monitortable3 {
+    border-collapse: collapse;
+    width: 890px;
+    margin: 0px;
+    padding: 0px;
+    background: rgb(185,192,201);
+}
+
+    #monitortable3 tbody {
+        height: 418px;
+        float: left;
+        overflow: auto;
+    }
+
+    #monitortable3 tr {
+        height: 40px;
+        width: 870px;
+        float: left;
+    }
+
+        #monitortable3 tr:nth-child(odd) td {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable3 tr:nth-child(odd) input {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable3 tr:nth-child(odd) td.readvaluebit10:hover {
+            background: rgb(189,205,226);
+        }
+
+        #monitortable3 tr:nth-child(odd) input.readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(189,205,226);
+        }
+
+        #monitortable3 tr:nth-child(even) td.readvaluebit10:hover {
+            background: rgb(207,221,242);
+        }
+
+        #monitortable3 tr:nth-child(even) input.readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(207,221,242);
+        }
+
+    #monitortable3 th {
+        height: 40px;
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        font-weight: normal;
+        margin: 0 auto;
+    }
+
+    #monitortable3 td {
+        font-size: 17px;
+        height: 40px;
+        border: 1px gray solid;
+        text-align: center;
+        background: rgb(255,255,255);
+        border-top: 0px;
+        border-bottom: 0px;
+        margin: 0 auto;
+    }
+
+    #monitortable3 .devname {
+        width: 174px;
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    #monitortable3 .readvaluebit10 {
+        width: 68px;
+        margin: 0 auto;
+    }
+
+    #monitortable3 .readinput {
+        font-size: 16px;
+        width: 60%;
+        height: 80%;
+        border: 0px;
+        text-align: right;
+    }
+
+#monitortable4 {
+    border-collapse: collapse;
+    width: 890px;
+    margin: 0px;
+    padding: 0px;
+    background: rgb(185,192,201);
+}
+
+    #monitortable4 tbody {
+        height: 418px;
+        float: left;
+        overflow: auto;
+    }
+
+    #monitortable4 tr {
+        height: 40px;
+        width: 870px;
+        float: left;
+    }
+
+        #monitortable4 tr:nth-child(odd) td {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable4 tr:nth-child(odd) input {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable4 tr:nth-child(odd) td.c_t_readvalue:hover {
+            background: rgb(189,205,226);
+        }
+
+        #monitortable4 tr:nth-child(odd) input.c_t_readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(189,205,226);
+        }
+
+        #monitortable4 tr:nth-child(even) td.c_t_readvalue:hover {
+            background: rgb(207,221,242);
+        }
+
+        #monitortable4 tr:nth-child(even) input.c_t_readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(207,221,242);
+        }
+
+    #monitortable4 th {
+        height: 40px;
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        font-weight: normal;
+        margin: 0 auto;
+    }
+
+    #monitortable4 td {
+        font-size: 17px;
+        height: 40px;
+        border: 1px gray solid;
+        text-align: center;
+        background: rgb(255,255,255);
+        border-top: 0px;
+        border-bottom: 0px;
+        margin: 0 auto;
+    }
+
+    #monitortable4 .devname {
+        width: 173px;
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    #monitortable4 .c_t_readvalue {
+        width: 230px;
+        margin: 0 auto;
+    }
+
+    #monitortable4 .c_t_readinput {
+        font-size: 16px;
+        width: 80%;
+        height: 80%;
+        border: 0px;
+        text-align: right;
+    }
+
+#monitortable5 {
+    border-collapse: collapse;
+    width: 890px;
+    margin: 0px;
+    padding: 0px;
+    background: rgb(185,192,201);
+}
+
+    #monitortable5 tbody {
+        height: 418px;
+        float: left;
+        overflow: auto;
+    }
+
+    #monitortable5 tr {
+        height: 40px;
+        width: 870px;
+        float: left;
+    }
+
+        #monitortable5 tr:nth-child(odd) td {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable5 tr:nth-child(odd) input {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable5 tr:nth-child(odd) td.readvalue_w8:hover {
+            background: rgb(189,205,226);
+        }
+
+        #monitortable5 tr:nth-child(odd) input.readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(189,205,226);
+        }
+
+        #monitortable5 tr:nth-child(even) td.readvalue_w8:hover {
+            background: rgb(207,221,242);
+        }
+
+        #monitortable5 tr:nth-child(even) input.readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(207,221,242);
+        }
+
+    #monitortable5 th {
+        height: 40px;
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        font-weight: normal;
+        margin: 0 auto;
+    }
+
+    #monitortable5 td {
+        font-size: 17px;
+        height: 40px;
+        border: 1px gray solid;
+        text-align: center;
+        background: rgb(255,255,255);
+        border-top: 0px;
+        border-bottom: 0px;
+        margin: 0 auto;
+    }
+
+    #monitortable5 .devname {
+        width: 178px;
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    #monitortable5 .readvalue_w8 {
+        width: 85px;
+        margin: 0 auto;
+    }
+
+    #monitortable5 .readinput {
+        font-size: 16px;
+        width: 80%;
+        height: 80%;
+        border: 0px;
+        text-align: right;
+    }
+
+#monitortable6 {
+    border-collapse: collapse;
+    width: 890px;
+    margin: 0px;
+    padding: 0px;
+    background: rgb(185,192,201);
+}
+
+    #monitortable6 tbody {
+        height: 418px;
+        float: left;
+        overflow: auto;
+    }
+
+    #monitortable6 tr {
+        height: 40px;
+        width: 870px;
+        float: left;
+    }
+
+        #monitortable6 tr:nth-child(odd) td {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable6 tr:nth-child(odd) input {
+            background: rgb(233,235,236);
+        }
+
+        #monitortable6 tr:nth-child(odd) td.readvalue_dw4:hover {
+            background: rgb(189,205,226);
+        }
+
+        #monitortable6 tr:nth-child(odd) input.readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(189,205,226);
+        }
+
+        #monitortable6 tr:nth-child(even) td.readvalue_dw4:hover {
+            background: rgb(207,221,242);
+        }
+
+        #monitortable6 tr:nth-child(even) input.readinput:hover {
+            color: rgb(13,81,179);
+            background: rgb(207,221,242);
+        }
+
+    #monitortable6 th {
+        height: 40px;
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        font-weight: normal;
+        margin: 0 auto;
+    }
+
+    #monitortable6 td {
+        font-size: 17px;
+        height: 40px;
+        border: 1px gray solid;
+        text-align: center;
+        background: rgb(255,255,255);
+        border-top: 0px;
+        border-bottom: 0px;
+        margin: 0 auto;
+    }
+
+    #monitortable6 .devname {
+        width: 174px;
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    #monitortable6 .readvalue_dw4 {
+        width: 171px;
+        margin: 0 auto;
+    }
+
+    #monitortable6 .readinput {
+        font-size: 16px;
+        width: 80%;
+        height: 80%;
+        border: 0px;
+        text-align: right;
+    }
+
+.monstatestyle {
+    width: 175px;
+    background: rgb(221,221,221);
+    text-align: center;
+    border-radius: 3px;
+}
+
+.monbtn {
+    width: 210px;
+    text-align: right;
+}
+
+.monbtnstyle {
+    width: 180px;
+    border-radius: 3px;
+    background: rgb(185,192,201);
+}
+
+input.monbtnstyle:hover {
+    cursor: auto;
+}
+
+input .monbtnstyle:disabled {
+    cursor: auto;
+}
+
+
+/*RegBatMon_ja.html****************/
+#watchouttbl {
+    padding-top: 5px;
+    padding-left: 5px;
+    width: 645px;
+    height: 620px;
+    background-color: rgb(221,221,221);
+}
+
+#innerbody input {
+    font-size: 18px;
+    border: 1px solid slategray;
+    font-family: "HiraginoSans-W6", "HiraginoSans-W3", "Meiryo";
+}
+
+#watchheadtable {
+    margin: 10px 8px;
+}
+
+    #watchheadtable .watch1 {
+        width: 140px;
+        display: inline-block;
+    }
+
+    #watchheadtable .watch2 {
+        width: 140px;
+        margin: 0px 40px;
+        display: inline-block;
+    }
+
+    #watchheadtable .dataclear {
+        width: 200px;
+        display: inline-block;
+    }
+
+    #watchheadtable .watchbtn {
+        width: 100%;
+        border-radius: 3px;
+        background-color: rgb(185,192,201);
+    }
+
+    #watchheadtable .selwatchbtn {
+        width: 90%;
+        color: rgb(255,255,255);
+        background-color: rgb(52,146,232);
+    }
+
+#watchtable {
+    border-collapse: collapse;
+    width: 634px;
+    margin: 10px;
+    padding: 0px;
+    background: rgb(185,192,201);
+}
+
+    #watchtable tbody {
+        height: 513px;
+        float: left;
+        overflow: auto;
+    }
+
+    #watchtable tr {
+        height: 30px;
+        width: 615px;
+        float: left;
+    }
+
+    #watchtable th {
+        height: 56px;
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        border-collapse: collapse;
+        font-weight: normal;
+    }
+
+    #watchtable td {
+        height: 30px;
+        border: 1px gray solid;
+        text-align: center;
+        background: rgb(255,255,255);
+        border-collapse: collapse;
+        border-top: 0px;
+        border-bottom: 0px;
+    }
+
+    #watchtable tr:nth-child(odd) td {
+        background: rgb(233,235,236);
+    }
+
+    #watchtable tr:nth-child(odd) input {
+        background: rgb(233,235,236);
+    }
+
+    #watchtable tr:nth-child(odd) select {
+        background: rgb(233,235,236);
+    }
+
+    #watchtable .devname {
+        width: 80px;
+    }
+
+    #watchtable th.devname {
+        text-align: left;
+        padding-left: 5px;
+        width: 75px;
+    }
+
+    #watchtable .regctl {
+        text-align: left;
+    }
+
+    #watchtable .disptype {
+        width: 80px;
+        text-align: left;
+    }
+
+    #watchtable .datatype {
+        width: 164px;
+        text-align: left;
+    }
+
+    #watchtable .remark {
+        width: 170px;
+        text-align: left;
+    }
+
+    #watchtable .readvalue {
+        width: 140px;
+        text-align: left;
+    }
+
+    #watchtable .regval {
+        width: 95%;
+        text-align: right;
+    }
+
+    #watchtable input {
+        font-size: 16px;
+        width: 92%;
+        height: 90%;
+        border: 0px;
+        text-align: left;
+    }
+
+    #watchtable select {
+        font-size: 16px;
+        width: 100%;
+        height: 85%;
+        border: 0px;
+        text-align: left;
+    }
+
+        #watchtable select option {
+            color: rgb(0,0,0);
+            background: rgb(255,255,255);
+        }
+
+/*CpuDiag.html****************/
+#screrea {
+    width: 768px;
+}
+
+.scroll {
+    overflow: auto;
+}
+
+    .scroll::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    .scroll::-webkit-scrollbar-track {
+        background: #F1F1F1;
+    }
+
+    .scroll::-webkit-scrollbar-thumb {
+        background: #BCBCBC;
+    }
+
+#cpuchecktable {
+    border-collapse: collapse;
+    width: 889px;
+    background: rgb(185,192,201);
+}
+
+    #cpuchecktable tbody {
+        height: 435px;
+        float: left;
+        overflow: auto;
+    }
+
+    #cpuchecktable tr {
+        width: 870px;
+        float: left;
+    }
+
+    #cpuchecktable .table_tr {
+        height: 90px;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    #cpuchecktable th {
+        height: 50px;
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        font-weight: normal;
+    }
+
+    #cpuchecktable td {
+        height: 90px;
+        border: 1px gray solid;
+        background: rgb(255,255,255);
+        border-top: 0px;
+        border-bottom: 0px;
+    }
+
+    #cpuchecktable tr:nth-child(odd) td {
+        background: rgb(233,235,236);
+    }
+
+    #cpuchecktable .number {
+        text-align: left;
+        width: 40px;
+    }
+
+    #cpuchecktable .daytime {
+        width: 120px;
+        text-align: left;
+    }
+
+    #cpuchecktable .stateh {
+        width: 130px;
+        text-align: left;
+    }
+
+    #cpuchecktable .stateimage {
+        width: 30px;
+    }
+
+    #cpuchecktable .state {
+        width: 98px;
+        text-align: left;
+    }
+
+    #cpuchecktable .errorcode {
+        text-align: left;
+        width: 90px;
+    }
+
+    #cpuchecktable .outline {
+        text-align: left;
+        font-size: 17px;
+        width: 474px;
+    }
+
+    #cpuchecktable .outline_en {
+        text-align: left;
+        font-size: 15px;
+        width: 474px;
+    }
+
+#cpuouttbl {
+    padding-top: 5px;
+    padding-left: 5px;
+    width: 665px;
+    height: 615px;
+    background-color: rgb(221,221,221);
+}
+
+#infotable {
+    border-collapse: collapse;
+}
+
+    #infotable th {
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        font-weight: normal;
+        text-align: left;
+    }
+
+    #infotable td {
+        height: 3em;
+        border: 1px gray solid;
+        text-align: left;
+        background: rgb(255,255,255);
+    }
+
+    #infotable .file_step {
+        min-width: 260px;
+        white-space: nowrap;
+    }
+
+    #infotable .slot {
+        min-width: 260px;
+    }
+
+/*DevTest.html*******************************/
+#devicetest .devarea {
+    width: 385px;
+    color: white;
+    background-color: rgb(52,146,232);
+    padding-left: 10px;
+    text-align: left;
+}
+
+#devicetest .inputarea {
+    width: 100%;
+    height: 160px;
+    padding: 5px 35px;
+    text-align: left;
+}
+
+#devicetest table.btnarea {
+    margin-top: 0px;
+    padding: 0px 150px;
+    text-align: left;
+}
+
+#devicetest input {
+    width: 120px;
+    border: 1px solid slategray;
+}
+
+#devicetest select {
+    width: 124px;
+    height: 20px;
+    border: 1px solid slategray;
+}
+
+#devicetest .settext {
+    height: 20px;
+    width: 180px;
+    text-align: left;
+}
+
+#devicetest .setvaltext {
+    height: 20px;
+    width: 180px;
+    text-align: right;
+}
+
+#devicetest .setbtn {
+    width: 105px;
+    height: 30px;
+    background-color: rgb(185,192,201);
+    text-align: center;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+#confirmtable {
+    font-size: 14px;
+    height: 160px;
+    padding-left: 10px;
+    vertical-align: top;
+}
+
+#confirmarea table.btnarea {
+    margin-top: 0px;
+    padding: 0px 150px;
+    text-align: left;
+}
+
+#messagetbl {
+    font-size: 14px;
+    height: 160px;
+    padding-left: 10px;
+    vertical-align: top;
+}
+
+#messagearea table.btnarea {
+    margin-top: 0px;
+    padding: 0px 254px;
+    text-align: left;
+}
+
+#infomessagetbl {
+    font-size: 18px;
+    height: 160px;
+    padding-left: 10px;
+    vertical-align: top;
+}
+
+#infomessagearea table.btnarea {
+    margin-top: 0px;
+    padding: 0px 254px;
+    text-align: left;
+}
+
+#modal-win {
+    display: none;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    position: fixed;
+    opacity: 0.5;
+    z-index: 1;
+}
+
+#modal-devtest {
+    display: none;
+    top: 200px;
+    left: 30%;
+    width: 385px;
+    color: rgb(255,255,255);
+    background-color: #FFFFFF;
+    border: 5px solid gray;
+    position: absolute;
+    z-index: 2;
+}
+
+/*AccLog.html****************/
+
+#acctbl {
+    font-size: 16px;
+    border-collapse: collapse;
+    width: 1060px;
+    background: rgb(185,192,201);
+}
+
+    #acctbl tbody {
+        font-size: 15px;
+        height: 500px;
+        float: left;
+        overflow: auto;
+    }
+
+    #acctbl tr {
+        width: 1042px;
+        float: left;
+    }
+
+    #acctbl .table_tr {
+        height: 3em;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    #acctbl th {
+        height: 30px;
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        font-weight: normal;
+    }
+
+    #acctbl td {
+        height: 3em;
+        border: 1px gray solid;
+        border-top: 0px;
+        border-bottom: 0px;
+        background: rgb(255,255,255);
+    }
+
+    #acctbl tr:nth-child(odd) td {
+        background: rgb(233,235,236);
+    }
+
+    #acctbl .number {
+        text-align: center;
+        width: 35px;
+    }
+
+    #acctbl .date {
+        width: 110px;
+        text-align: left;
+    }
+
+    #acctbl .user {
+        width: 320px;
+        text-align: left;
+    }
+
+    #acctbl td.user {
+    }
+
+    #acctbl .action {
+        width: 215px;
+        text-align: left;
+    }
+
+    #acctbl td.action {
+    }
+
+    #acctbl .connNo {
+        width: 105px;
+        text-align: left;
+    }
+
+    #acctbl .protocol {
+        width: 90px;
+        text-align: left;
+    }
+
+    #acctbl .ipaddress {
+        width: 145px;
+        text-align: left;
+    }
+
+#accouttbl {
+    padding-top: 5px;
+    padding-left: 5px;
+    width: 1065px;
+    height: 565px;
+    background-color: rgb(221,221,221);
+}
+
+#loading-win {
+    display: none;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    opacity: 0.5;
+    z-index: 2;
+}
+/*EventLog.html****************/
+#eventloadtable {
+    padding-left: 5px;
+    width: 1090px;
+    height: 50px;
+    background-color: rgb(221,221,221);
+}
+
+#Eventtbl {
+    padding-top: 5px;
+    padding-left: 5px;
+    width: 1090px;
+    height: 615px;
+    background-color: rgb(221,221,221);
+}
+
+#eventfbtable {
+    padding-left: 5px;
+    width: 1090px;
+    height: 30px;
+    background-color: rgb(221,221,221);
+}
+
+#eventloadtable .eventbtn {
+    width: 200px;
+    border-radius: 3px;
+    background-color: rgb(185,192,201);
+}
+
+#eventloadtable .upDataTime {
+    text-align: left;
+}
+
+#eventfbtable .prevEveBtntd {
+    text-align: left;
+}
+
+#eventfbtable .nextEveBtntd {
+    text-align: right;
+}
+
+.prevEveBtntd .prevbutton {
+    background-color: rgb(185,192,201);
+}
+
+.nextEveBtntd .prevbutton {
+    background-color: rgb(185,192,201);
+}
+
+#eventloadtable .prevbutton {
+    width: 80px;
+    border-radius: 3px;
+}
+
+#Eventtable {
+    width: 1085px;
+    border-collapse: collapse;
+    background: rgb(185,192,201);
+    font-size: 16px;
+}
+
+    #Eventtable tbody {
+        height: 348px;
+        float: left;
+        overflow: auto;
+    }
+
+    #Eventtable tr {
+        width: 1068px;
+        float: left;
+    }
+
+    #Eventtable .table_tr {
+        height: 90px;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    #Eventtable th {
+        height: 50px;
+        background: rgb(185,192,201);
+        border: 1px gray solid;
+        font-weight: normal;
+    }
+
+    #Eventtable td {
+        height: 90px;
+        border: 1px gray solid;
+        background: rgb(255,255,255);
+        border-top: 0px;
+        border-bottom: 0px;
+    }
+
+    #Eventtable .number {
+        text-align: left;
+        width: 65px;
+        font-size: 18px;
+    }
+
+    #Eventtable .daytime {
+        width: 120px;
+        text-align: left;
+        font-size: 18px;
+    }
+
+    #Eventtable .type {
+        width: 145px;
+        text-align: left;
+        font-size: 18px;
+    }
+
+    #Eventtable .stateh {
+        width: 147px;
+        text-align: left;
+        font-size: 18px;
+    }
+
+    #Eventtable .stateimage {
+        width: 30px;
+    }
+
+    #Eventtable .state {
+        width: 95px;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    #Eventtable .code {
+        text-align: left;
+        font-size: 18px;
+        width: 120px;
+    }
+
+    #Eventtable .outline {
+        text-align: left;
+        font-size: 18px;
+        width: 450px;
+    }
+
+    #Eventtable .outline_en {
+        text-align: left;
+        font-size: 15px;
+        width: 450px;
+    }
+
+#eveinfotable {
+    width: 1065px;
+    text-align: left;
+    border: 1px gray solid;
+    border-collapse: collapse;
+}
+
+.information {
+    width: 250px;
+    background: rgb(185,192,201);
+    border: 1px solid gray;
+    font-weight: normal;
+    text-align: left;
+}
+
+#eveinfotable .eveinfo1 {
+    width: 250px;
+    height: 3em;
+    border: 1px solid gray;
+    background: rgb(255,255,255);
+}
+
+#eveinfotable .eveinfo2 {
+    width: 250px;
+    height: 3em;
+    border: 1px solid gray;
+    background: rgb(255,255,255);
+}
+
+#eveinfotable .eveinfo3 {
+    width: 250px;
+    height: 3em;
+    border: 1px solid gray;
+    background: rgb(255,255,255);
+}
+
+#Eventtable tr:nth-child(odd) td {
+    background: rgb(233,235,236);
+}
+
+#eventloadtable .upDataTime {
+    background: rgb(0,0,0);
+}
